@@ -804,7 +804,12 @@ class FHIRAbstractModel(BaseModel):
         global _global_model_config_snapshot
         if _global_model_config_snapshot is None:
             _global_model_config_snapshot = dict(FHIRAbstractModel.model_config)
-        FHIRAbstractModel.model_config.update(overrides)
+        # ``ConfigDict`` is a ``TypedDict`` to mypy, so cast to a plain dict
+        # before mutating it (it is a plain dict at runtime).
+        global_config = typing.cast(
+            typing.Dict[str, typing.Any], FHIRAbstractModel.model_config
+        )
+        global_config.update(overrides)
 
     @classmethod
     def get_global_model_config(cls) -> typing.Dict[str, typing.Any]:
@@ -820,6 +825,9 @@ class FHIRAbstractModel(BaseModel):
         """
         global _global_model_config_snapshot
         if _global_model_config_snapshot is not None:
-            FHIRAbstractModel.model_config.clear()
-            FHIRAbstractModel.model_config.update(_global_model_config_snapshot)
+            global_config = typing.cast(
+                typing.Dict[str, typing.Any], FHIRAbstractModel.model_config
+            )
+            global_config.clear()
+            global_config.update(_global_model_config_snapshot)
             _global_model_config_snapshot = None
