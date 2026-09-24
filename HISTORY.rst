@@ -4,7 +4,11 @@ History
 1.1.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Make ``Id`` constraints customizable again: ``max_length`` and ``pattern``
+  are now resolved from ``fhir_core.constraints.TYPES_ID_MAX_LENGTH`` /
+  ``TYPES_ID_PATTERN`` at schema build time, so patching those values before
+  the FHIR models are imported relaxes validation as documented
+  nazrulworld/fhir.resources#173
 
 
 1.1.11 (2026-09-13)
